@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IronLog — дневник тренировок</title>
+  <meta name="description" content="IronLog — бумажный дневник тренировок в телефоне. Программы, рутины, 347 упражнений, свои упражнения и обмен тренировками по коду." />
+  <link rel="icon" href="img/icon.png" />
+  <link rel="apple-touch-icon" href="img/icon.png" />
+  <style>
+    @font-face {
+      font-family: "Neucha";
+      src: url("fonts/Neucha.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --paper: #fbf7e7;
+      --card: #fffdf5;
+      --shade: #f0e8ce;
+      --ink: #2e2a22;
+      --muted: #6f6858;
+      --rule: #b7d4e8;
+      --margin: #e9a0a0;
+      --lime: #8cc63f;
+      --lime-deep: #4c6b12;
+      --sky: #63bfe8;
+      --sky-deep: #16607f;
+      --orange: #ffa94d;
+      --pink: #ff8fb1;
+      --purple: #b39ddb;
+      --shadow: 4px 5px 0 rgba(46, 42, 34, 0.18);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Neucha", "Segoe Print", "Comic Sans MS", cursive;
+      font-size: 20px;
+      line-height: 1.45;
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(90deg, transparent 0 64px, rgba(233, 160, 160, 0.55) 64px 66px, transparent 66px),
+        repeating-linear-gradient(0deg, transparent 0 31px, rgba(183, 212, 232, 0.55) 31px 32px);
+      background-attachment: fixed;
+    }
+
+    ::selection { background: var(--lime); color: #1b2408; }
+
+    .wrap {
+      width: min(1120px, 100% - 40px);
+      margin: 0 auto;
+    }
+
+    a { color: var(--sky-deep); }
+
+    /* ---------- header ---------- */
+
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(251, 247, 231, 0.94);
+      backdrop-filter: blur(6px);
+      border-bottom: 2px dashed rgba(46, 42, 34, 0.25);
+    }
+
+    .top-inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+      margin-right: auto;
+    }
+
+    .brand img {
+      width: 44px;
+      height: 44px;
+      border: 2px solid var(--ink);
+      border-radius: 12px 14px 11px 15px;
+      background: var(--card);
+      box-shadow: 2px 2px 0 rgba(46, 42, 34, 0.2);
+    }
+
+    .brand b {
+      font-size: 27px;
+      letter-spacing: 0.5px;
+      line-height: 1;
+    }
+
+    .brand .sub {
+      display: block;
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.1;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 18px;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: var(--ink);
+      padding: 4px 2px;
+      border-bottom: 2px solid transparent;
+    }
+
+    .nav a:hover { border-bottom-color: var(--lime); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border: 2px solid var(--ink);
+      border-radius: 14px 18px 12px 20px / 18px 12px 20px 14px;
+      background: var(--card);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 21px;
+      line-height: 1.1;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+
+    .btn:hover {
+      transform: translate(-1px, -2px) rotate(-0.6deg);
+      box-shadow: 6px 8px 0 rgba(46, 42, 34, 0.2);
+    }
+
+    .btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 rgba(46, 42, 34, 0.2);
+    }
+
+    .btn-primary { background: var(--lime); }
+    .btn-sky { background: var(--sky); }
+    .btn-small { font-size: 18px; padding: 9px 16px; }
+
+    /* ---------- hero ---------- */
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+      padding: 64px 0 48px;
+    }
+
+    .kicker {
+      display: inline-block;
+      padding: 5px 14px;
+      margin-bottom: 18px;
+      font-size: 17px;
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 999px 999px 999px 6px;
+      box-shadow: 2px 2px 0 rgba(46, 42, 34, 0.16);
+      transform: rotate(-1.2deg);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(44px, 7vw, 78px);
+      line-height: 0.96;
+      letter-spacing: -1px;
+    }
+
+    h1 .hl {
+      position: relative;
+      white-space: nowrap;
+      z-index: 0;
+    }
+
+    h1 .hl::after {
+      content: "";
+      position: absolute;
+      left: -4px;
+      right: -4px;
+      bottom: 4px;
+      height: 16px;
+      background: var(--lime);
+      z-index: -1;
+      transform: rotate(-1deg);
+      border-radius: 40% 60% 45% 55% / 60% 40% 55% 45%;
+    }
+
+    .lead {
+      max-width: 34ch;
+      margin: 18px 0 26px;
+      font-size: 23px;
+      color: #4a4436;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .cta-note {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 22ch;
+    }
+
+    .hero-phone {
+      position: relative;
+      justify-self: center;
+      width: min(300px, 100%);
+      transform: rotate(1.6deg);
+    }
+
+    .hero-phone::before {
+      content: "";
+      position: absolute;
+      inset: -14px -10px -18px -12px;
+      background: var(--shade);
+      border: 2px solid var(--ink);
+      border-radius: 30px 34px 28px 36px / 34px 28px 36px 30px;
+      transform: rotate(-3deg);
+      z-index: -1;
+    }
+
+    .hero-phone img {
+      display: block;
+      width: 100%;
+      border: 2px solid var(--ink);
+      border-radius: 26px;
+      box-shadow: 6px 8px 0 rgba(46, 42, 34, 0.16);
+    }
+
+    .tape {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      width: 110px;
+      height: 28px;
+      margin-left: -55px;
+      background: rgba(255, 169, 77, 0.75);
+      border: 1px solid rgba(46, 42, 34, 0.25);
+      transform: rotate(-3deg);
+    }
+
+    /* ---------- sections ---------- */
+
+    section { padding: 54px 0; }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(32px, 4.6vw, 48px);
+      line-height: 1.02;
+    }
+
+    .squiggle {
+      display: block;
+      width: 120px;
+      height: 12px;
+      margin-top: 6px;
+      color: var(--lime-deep);
+    }
+
+    .section-head p {
+      max-width: 38ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: 19px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      position: relative;
+      padding: 22px 22px 24px;
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 16px 20px 14px 22px / 20px 14px 22px 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .card:nth-child(2n) { transform: rotate(0.35deg); }
+    .card:nth-child(3n) { transform: rotate(-0.45deg); }
+    .card:hover { transform: rotate(0deg) translateY(-3px); transition: transform 0.15s ease; }
+
+    .card .ico {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 12px;
+      font-size: 25px;
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      border-radius: 50% 45% 55% 48% / 48% 55% 45% 52%;
+    }
+
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 18px;
+      color: #4f493a;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 2px 10px;
+      font-size: 15px;
+      background: var(--shade);
+      border: 1.5px solid var(--ink);
+      border-radius: 999px;
+    }
+
+    /* ---------- steps ---------- */
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      padding: 26px 22px 22px;
+      background: var(--card);
+      border: 2px dashed var(--ink);
+      border-radius: 18px;
+      counter-increment: step;
+    }
+
+    .step::before {
+      content: counter(step);
+      position: absolute;
+      top: -18px;
+      left: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      font-size: 22px;
+      background: var(--sky);
+      border: 2px solid var(--ink);
+      border-radius: 50% 44% 56% 50% / 46% 54% 46% 54%;
+    }
+
+    .step h3 { margin: 0 0 6px; font-size: 23px; }
+    .step p { margin: 0; font-size: 18px; color: #4f493a; }
+
+    .code {
+      display: block;
+      margin-top: 12px;
+      padding: 8px 10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 13px;
+      line-height: 1.35;
+      word-break: break-all;
+      color: #1b2408;
+      background: #eef7d6;
+      border: 1.5px solid var(--ink);
+      border-radius: 8px;
+    }
+
+    /* ---------- screenshots ---------- */
+
+    .shots {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .shot {
+      margin: 0;
+      padding: 10px;
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 14px 18px 12px 20px;
+      box-shadow: var(--shadow);
+      transform: rotate(-0.6deg);
+    }
+
+    .shot:nth-child(2n) { transform: rotate(0.8deg); }
+
+    .shot img {
+      display: block;
+      width: 100%;
+      border: 1.5px solid rgba(46, 42, 34, 0.35);
+      border-radius: 10px;
+    }
+
+    .shot figcaption {
+      padding: 8px 4px 2px;
+      font-size: 16px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    /* ---------- download ---------- */
+
+    .download {
+      position: relative;
+      margin: 20px 0 10px;
+      padding: 40px;
+      background: var(--card);
+      border: 3px solid var(--ink);
+      border-radius: 22px 28px 20px 30px / 28px 20px 30px 22px;
+      box-shadow: 8px 10px 0 rgba(46, 42, 34, 0.16);
+      overflow: hidden;
+    }
+
+    .download::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      top: -70px;
+      width: 220px;
+      height: 220px;
+      background: var(--lime);
+      border-radius: 50% 45% 55% 48% / 48% 55% 45% 52%;
+      opacity: 0.5;
+      z-index: 0;
+    }
+
+    .download-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .download h2 { margin-bottom: 8px; }
+
+    .download p { margin: 0; max-width: 52ch; color: #4a4436; }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+      font-size: 16px;
+      color: var(--muted);
+    }
+
+    .meta span {
+      padding: 3px 10px;
+      background: var(--paper);
+      border: 1.5px solid rgba(46, 42, 34, 0.5);
+      border-radius: 999px;
+    }
+
+    .hash {
+      margin-top: 18px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      color: var(--muted);
+      word-break: break-all;
+    }
+
+    /* ---------- install / faq ---------- */
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 26px;
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 18px 22px 16px 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel h3 { margin: 0 0 12px; font-size: 27px; }
+
+    .panel ol, .panel ul { margin: 0; padding-left: 22px; }
+
+    .panel li { margin: 7px 0; font-size: 18px; color: #4a4436; }
+
+    .panel li b { color: var(--ink); }
+
+    details {
+      padding: 12px 0;
+      border-bottom: 1.5px dashed rgba(46, 42, 34, 0.35);
+    }
+
+    details:last-child { border-bottom: 0; }
+
+    summary {
+      cursor: pointer;
+      font-size: 20px;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::before {
+      content: "+";
+      display: inline-block;
+      width: 24px;
+      color: var(--lime-deep);
+    }
+
+    details[open] summary::before { content: "–"; }
+
+    details p {
+      margin: 8px 0 0 24px;
+      font-size: 17px;
+      color: #4f493a;
+    }
+
+    /* ---------- footer ---------- */
+
+    footer {
+      margin-top: 40px;
+      padding: 30px 0 46px;
+      border-top: 2px dashed rgba(46, 42, 34, 0.3);
+      font-size: 16px;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      justify-content: space-between;
+    }
+
+    .footer-inner b { color: var(--ink); font-size: 19px; }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding-top: 40px; gap: 34px; }
+      .hero-phone { width: min(270px, 74vw); }
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .shots { grid-template-columns: repeat(2, 1fr); }
+      .download-inner { grid-template-columns: 1fr; }
+      .split { grid-template-columns: 1fr; }
+      .nav { display: none; }
+    }
+
+    @media (max-width: 560px) {
+      body { font-size: 18px; }
+      .wrap { width: min(1120px, 100% - 26px); }
+      .grid, .steps, .shots { grid-template-columns: 1fr; }
+      .section-head { flex-direction: column; align-items: start; gap: 10px; }
+      .download { padding: 26px 20px; }
+      .brand .sub { display: none; }
+      .btn { font-size: 19px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="brand" href="#top">
+      <img src="img/icon.png" alt="Иконка IronLog" />
+      <span><b>IronLog</b><span class="sub">дневник тренировок</span></span>
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#features">Возможности</a>
+      <a href="#share">Обмен</a>
+      <a href="#shots">Скриншоты</a>
+      <a href="#install">Установка</a>
+    </nav>
+    <a class="btn btn-primary btn-small" href="ironlog-1.2.apk" download>Скачать</a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <div class="kicker">Android · версия 1.2 · 347 упражнений</div>
+        <h1 id="hero-title">Твой дневник<br />тренировок —<br /><span class="hl">на бумаге</span></h1>
+        <p class="lead">
+          IronLog выглядит как бумажный блокнот, а работает как серьёзный трекер:
+          подходы, программы, прогресс и обмен тренировками с друзьями.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="ironlog-1.2.apk" download>Скачать IronLog 1.2</a>
+          <a class="btn" href="#install">Как установить</a>
+          <div class="cta-note">APK · 11 МБ · Android 7.0 и новее</div>
+        </div>
+      </div>
+      <div class="hero-phone">
+        <div class="tape" aria-hidden="true"></div>
+        <img src="img/home.png" alt="Главный экран IronLog" />
+      </div>
+    </section>
+
+    <section id="features" aria-labelledby="features-title">
+      <div class="section-head">
+        <div>
+          <h2 id="features-title">Что умеет IronLog</h2>
+          <svg class="squiggle" viewBox="0 0 120 12" fill="none" aria-hidden="true">
+            <path d="M2 8 C 14 2, 24 11, 36 6 S 58 2, 70 7 S 96 11, 118 4" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p>Всё, что нужно для силовых тренировок, — без аккаунтов, рекламы и подписок.</p>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="ico" aria-hidden="true">🏋️</div>
+          <h3>Тренировка в один тап</h3>
+          <p>Вес, повторы, заметки к упражнениям и таймер отдыха. Прошлые результаты видны прямо в подходе — не нужно вспоминать, сколько жал в прошлый раз.</p>
+          <span class="tag">таймер 2:30</span>
+        </article>
+
+        <article class="card">
+          <div class="ico" aria-hidden="true">📋</div>
+          <h3>Программы и рутины</h3>
+          <p>Собирай программы из рутин, а рутины — из упражнений. Нажми «Начать» — и вся тренировка уже заполнена нужными подходами.</p>
+          <span class="tag">программа → рутина → упражнение</span>
+        </article>
+
+        <article class="card">
+          <div class="ico" aria-hidden="true">✏️</div>
+          <h3>Свои упражнения и «Своё»</h3>
+          <p>Не нашёл упражнение в каталоге? Нажми «Своё упражнение», выбери группу мышц — оно появится и в этой группе, и в девятой группе «Своё».</p>
+          <span class="tag">9 групп</span>
+        </article>
+
+        <article class="card">
+          <div class="ico" aria-hidden="true">📤</div>
+          <h3>Обмен как в GymKeeper</h3>
+          <p>Отправь тренировку или целую программу другу в мессенджере. Он вставит код в IronLog — и программа уже у него.</p>
+          <span class="tag">IRONLOG1:…</span>
+        </article>
+
+        <article class="card">
+          <div class="ico" aria-hidden="true">📈</div>
+          <h3>История и прогресс</h3>
+          <p>Объём, тоннаж, лучшие подходы и графики по неделям. История хранится на устройстве и не теряется без интернета.</p>
+          <span class="tag">1ПМ · формула Эпли</span>
+        </article>
+
+        <article class="card">
+          <div class="ico" aria-hidden="true">🎨</div>
+          <h3>Три темы и пять акцентов</h3>
+          <p>Бумага в линейку, тёмная доска и чёрный скетчбук. Плюс лайм, небо, апельсин, роза и лаванда — под настроение.</p>
+          <span class="tag">рукописный шрифт</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="share" aria-labelledby="share-title">
+      <div class="section-head">
+        <div>
+          <h2 id="share-title">Отправить программу другу</h2>
+          <svg class="squiggle" viewBox="0 0 120 12" fill="none" aria-hidden="true">
+            <path d="M2 8 C 14 2, 24 11, 36 6 S 58 2, 70 7 S 96 11, 118 4" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p>Один код переносит всю программу: рутины, упражнения, подходы, веса и комментарии.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <h3>Открой программу</h3>
+          <p>В разделе «Программы» открой нужную программу и нажми иконку «Отправить». IronLog соберёт читаемый текст и код импорта.</p>
+        </div>
+        <div class="step">
+          <h3>Отправь в мессенджер</h3>
+          <p>Выбери Telegram, WhatsApp или любое другое приложение. Друг получит обычное сообщение с описанием и кодом в конце.</p>
+          <code class="code">IRONLOG1:eyJ2IjoxLCJ0eXBlIjoicHJvZ3JhbSIsIm5hbWUiOi…</code>
+        </div>
+        <div class="step">
+          <h3>Друг импортирует</h3>
+          <p>Ему достаточно вставить сообщение целиком в «Программы → Импорт» или просто открыть IronLog из меню «Поделиться». Появится подтверждение — и программа у него.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="shots" aria-labelledby="shots-title">
+      <div class="section-head">
+        <div>
+          <h2 id="shots-title">Как это выглядит</h2>
+          <svg class="squiggle" viewBox="0 0 120 12" fill="none" aria-hidden="true">
+            <path d="M2 8 C 14 2, 24 11, 36 6 S 58 2, 70 7 S 96 11, 118 4" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p>Настоящие экраны приложения, снятые на Android.</p>
+      </div>
+
+      <div class="shots">
+        <figure class="shot">
+          <img src="img/home.png" alt="Главный экран с объёмом за неделю и быстрым доступом" loading="lazy" />
+          <figcaption>Главная: объём, серия и быстрый доступ</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/catalog.png" alt="Каталог из девяти групп мышц" loading="lazy" />
+          <figcaption>Каталог: 9 групп, включая «Своё»</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/custom.png" alt="Группа Своё с пользовательским упражнением" loading="lazy" />
+          <figcaption>«Своё»: личные упражнения</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/program.png" alt="Экран программы с рутиной и упражнениями" loading="lazy" />
+          <figcaption>Программа: рутины и подходы</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="download" aria-labelledby="download-title">
+      <div class="download">
+        <div class="download-inner">
+          <div>
+            <h2 id="download-title">Скачать IronLog 1.2</h2>
+            <p>
+              Прямая ссылка на APK. Приложение не требует аккаунта, работает офлайн,
+              а все данные хранятся только на твоём телефоне.
+            </p>
+            <div class="meta">
+              <span>версия 1.2</span>
+              <span>Android 7.0+</span>
+              <span>11 МБ</span>
+              <span>без рекламы</span>
+            </div>
+            <div class="hash">SHA-256: ca200bd24309bd8c2bdf2f3c38afd21eac9de03b9a5be50f13f55d0a89370884</div>
+          </div>
+          <a class="btn btn-primary" href="ironlog-1.2.apk" download>Скачать APK</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="install" aria-labelledby="install-title">
+      <div class="section-head">
+        <div>
+          <h2 id="install-title">Установка и вопросы</h2>
+          <svg class="squiggle" viewBox="0 0 120 12" fill="none" aria-hidden="true">
+            <path d="M2 8 C 14 2, 24 11, 36 6 S 58 2, 70 7 S 96 11, 118 4" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p>Три шага — и можно записывать первый подход.</p>
+      </div>
+
+      <div class="split">
+        <div class="panel">
+          <h3>Как установить APK</h3>
+          <ol>
+            <li>Скачай файл <b>ironlog-1.2.apk</b> на телефон.</li>
+            <li>Открой его. Если Android спросит разрешение — разреши установку из этого источника (браузера или файлового менеджера).</li>
+            <li>Нажми <b>«Установить»</b>. Если уже стоит старая версия IronLog, она обновится с сохранением данных.</li>
+          </ol>
+          <p style="margin-top:14px;font-size:17px;color:#4f493a">
+            После установки приложение появится в списке программ под именем <b>IronLog</b>.
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3>Частые вопросы</h3>
+          <details open>
+            <summary>Куда сохраняются тренировки?</summary>
+            <p>В память телефона. IronLog не отправляет данные на серверы и работает без интернета. Удаление приложения удалит и историю.</p>
+          </details>
+          <details>
+            <summary>Почему APK, а не Google Play?</summary>
+            <p>Это персональный проект. APK можно установить напрямую, без публикации в магазине и без аккаунта разработчика.</p>
+          </details>
+          <details>
+            <summary>Что именно импортируется по коду?</summary>
+            <p>Тренировка попадает в историю, программа — в раздел «Программы». Импорт создаёт новые записи и не перезаписывает твои старые.</p>
+          </details>
+          <details>
+            <summary>Обновление сотрёт мои данные?</summary>
+            <p>Нет, если ставить поверх старой версии. APK подписан тем же ключом, поэтому Android обновит приложение, сохранив историю, программы и настройки.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div>
+      <b>IronLog</b> · дневник тренировок<br />
+      Сделано для себя и друзей. Бумага, карандаш и железо.
+    </div>
+    <div>
+      <a href="ironlog-1.2.apk" download>Скачать APK</a> ·
+      <a href="apk.sha256">Контрольная сумма</a> ·
+      <span id="year">2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
