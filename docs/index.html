@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>IronLog — дневник тренировок</title>
-  <meta name="description" content="IronLog — бумажный дневник тренировок в телефоне. Программы, рутины, 347 упражнений, свои упражнения и обмен тренировками по коду." />
+  <meta name="description" content="IronLog — бумажный дневник тренировок в телефоне. Программы, рутины, 347 упражнений, свои упражнения, поиск по прогрессу с графиком и обмен тренировками по коду." />
   <link rel="icon" href="img/icon.png" />
   <link rel="apple-touch-icon" href="img/icon.png" />
   <style>
@@ -406,7 +406,7 @@
 
     .shots {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 18px;
       align-items: start;
     }
@@ -490,6 +490,27 @@
       background: var(--paper);
       border: 1.5px solid rgba(46, 42, 34, 0.5);
       border-radius: 999px;
+    }
+
+    .changelog {
+      margin-top: 16px;
+      padding: 12px 18px;
+      background: var(--paper);
+      border: 1.5px dashed rgba(46, 42, 34, 0.4);
+      border-radius: 12px;
+    }
+
+    .changelog b {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 18px;
+    }
+
+    .changelog ul {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 16px;
+      color: #4f493a;
     }
 
     .hash {
@@ -610,7 +631,7 @@
       <a href="#shots">Скриншоты</a>
       <a href="#install">Установка</a>
     </nav>
-    <a class="btn btn-primary btn-small" href="ironlog-1.2.apk" download>Скачать</a>
+    <a class="btn btn-primary btn-small" href="ironlog-1.3.apk" download>Скачать</a>
   </div>
 </header>
 
@@ -618,14 +639,14 @@
   <div class="wrap">
     <section class="hero" aria-labelledby="hero-title">
       <div>
-        <div class="kicker">Android · версия 1.2 · 347 упражнений</div>
+        <div class="kicker">Android · версия 1.3 · 347 упражнений</div>
         <h1 id="hero-title">Твой дневник<br />тренировок —<br /><span class="hl">на бумаге</span></h1>
         <p class="lead">
           IronLog выглядит как бумажный блокнот, а работает как серьёзный трекер:
           подходы, программы, прогресс и обмен тренировками с друзьями.
         </p>
         <div class="cta-row">
-          <a class="btn btn-primary" href="ironlog-1.2.apk" download>Скачать IronLog 1.2</a>
+          <a class="btn btn-primary" href="ironlog-1.3.apk" download>Скачать IronLog 1.3</a>
           <a class="btn" href="#install">Как установить</a>
           <div class="cta-note">APK · 11 МБ · Android 7.0 и новее</div>
         </div>
@@ -679,8 +700,8 @@
         <article class="card">
           <div class="ico" aria-hidden="true">📈</div>
           <h3>История и прогресс</h3>
-          <p>Объём, тоннаж, лучшие подходы и графики по неделям. История хранится на устройстве и не теряется без интернета.</p>
-          <span class="tag">1ПМ · формула Эпли</span>
+          <p>Поиск по всем упражнениям за годы тренировок. Открой упражнение в каталоге — и сразу увидишь свой график, рекорд и прирост. История хранится на устройстве и не теряется без интернета.</p>
+          <span class="tag">поиск · график</span>
         </article>
 
         <article class="card">
@@ -748,6 +769,14 @@
           <img src="img/program.png" alt="Экран программы с рутиной и упражнениями" loading="lazy" />
           <figcaption>Программа: рутины и подходы</figcaption>
         </figure>
+        <figure class="shot">
+          <img src="img/progress.png" alt="Поиск упражнения в разделе Прогресс" loading="lazy" />
+          <figcaption>Прогресс: поиск по 150+ упражнениям</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="img/exercise.png" alt="График прогресса упражнения на экране упражнения" loading="lazy" />
+          <figcaption>Карточка упражнения: график и рекорд</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -755,20 +784,28 @@
       <div class="download">
         <div class="download-inner">
           <div>
-            <h2 id="download-title">Скачать IronLog 1.2</h2>
+            <h2 id="download-title">Скачать IronLog 1.3</h2>
             <p>
               Прямая ссылка на APK. Приложение не требует аккаунта, работает офлайн,
               а все данные хранятся только на твоём телефоне.
             </p>
+            <div class="changelog">
+              <b>Что нового в 1.3</b>
+              <ul>
+                <li>Поиск упражнения в «Прогрессе» — по всей истории тренировок.</li>
+                <li>График, рекорд и прирост прямо в карточке упражнения из каталога.</li>
+                <li>Обновлённый APK и новые скриншоты на этой странице.</li>
+              </ul>
+            </div>
             <div class="meta">
-              <span>версия 1.2</span>
+              <span>версия 1.3</span>
               <span>Android 7.0+</span>
               <span>11 МБ</span>
               <span>без рекламы</span>
             </div>
-            <div class="hash">SHA-256: ca200bd24309bd8c2bdf2f3c38afd21eac9de03b9a5be50f13f55d0a89370884</div>
+            <div class="hash">SHA-256: 77f2da7dce8332af40405d953f6bc42d551cf4063b766e42a757d89cdfea3d97</div>
           </div>
-          <a class="btn btn-primary" href="ironlog-1.2.apk" download>Скачать APK</a>
+          <a class="btn btn-primary" href="ironlog-1.3.apk" download>Скачать APK</a>
         </div>
       </div>
     </section>
@@ -788,7 +825,7 @@
         <div class="panel">
           <h3>Как установить APK</h3>
           <ol>
-            <li>Скачай файл <b>ironlog-1.2.apk</b> на телефон.</li>
+            <li>Скачай файл <b>ironlog-1.3.apk</b> на телефон.</li>
             <li>Открой его. Если Android спросит разрешение — разреши установку из этого источника (браузера или файлового менеджера).</li>
             <li>Нажми <b>«Установить»</b>. Если уже стоит старая версия IronLog, она обновится с сохранением данных.</li>
           </ol>
@@ -828,7 +865,7 @@
       Сделано для себя и друзей. Бумага, карандаш и железо.
     </div>
     <div>
-      <a href="ironlog-1.2.apk" download>Скачать APK</a> ·
+      <a href="ironlog-1.3.apk" download>Скачать APK</a> ·
       <a href="apk.sha256">Контрольная сумма</a> ·
       <span id="year">2026</span>
     </div>
