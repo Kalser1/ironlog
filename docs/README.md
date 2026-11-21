@@ -10,7 +10,7 @@
 
 2. Загрузи в репозиторий **всю папку `docs`** так, чтобы в корне репозитория
    оказалась папка `docs`, а внутри неё — `index.html`, `LiftBook_2-3.apk`,
-   `img/`, `fonts/`.
+   `LiftBook_iOS_2-3_source.zip`, `img/`, `fonts/`.
 
    В веб-интерфейсе GitHub: **Add file → Upload files**, перетащи папку `docs`
    целиком и нажми **Commit changes**.
@@ -23,6 +23,8 @@
        ├── index.html        ← главная страница
        ├── LiftBook_2-3.apk
        ├── apk.sha256
+       ├── LiftBook_iOS_2-3_source.zip
+       ├── ios_source.sha256
        ├── 404.html
        ├── .nojekyll
        ├── fonts/
@@ -147,6 +149,12 @@ https://kalser.github.io/liftbook/
 - `apk.sha256` — контрольная сумма SHA-256 файла `LiftBook_2-3.apk`.
   На странице есть отдельный блок, который объясняет, зачем она нужна и как
   сверить файл на Windows, macOS, Linux или Android.
+- `LiftBook_iOS_2-3_source.zip` — исходный Xcode-проект LiftBook 2.3 для iPhone
+  (SwiftUI, iOS 17+, без внешних зависимостей). Это не `.ipa`: собрать и подписать
+  приложение нужно на Mac в Xcode со своим Apple ID. Внутри архива есть `README.md`
+  с пошаговой инструкцией. При изменении списка исходников перегенерируй проект:
+  `python3 ios/generate_xcodeproj.py`, затем собери архив заново.
+- `ios_source.sha256` — контрольная сумма архива с исходниками iOS.
 - `fonts/Neucha.ttf` — рукописный шрифт для обычных тем.
 - `fonts/Caveat.ttf` — более живой рукописный шрифт тем «Синий почерк» и «Чёрный почерк».
 - `img/` — иконка и скриншоты.

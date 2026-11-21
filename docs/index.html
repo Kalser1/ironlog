@@ -627,6 +627,7 @@
       <a href="#features">Возможности</a>
       <a href="#share">Обмен</a>
       <a href="#shots">Скриншоты</a>
+      <a href="#ios">iOS</a>
       <a href="#install">Установка</a>
       <a href="#checksum">Контрольная сумма</a>
     </nav>
@@ -646,8 +647,9 @@
         </p>
         <div class="cta-row">
           <a class="btn btn-primary" href="LiftBook_2-3.apk" download>Скачать LiftBook 2.3</a>
+          <a class="btn" href="#ios">Версия для iPhone</a>
           <a class="btn" href="#install">Как установить</a>
-          <div class="cta-note">APK · 11 МБ · Android 7.0 и новее</div>
+          <div class="cta-note">APK · 11 МБ · Android 7.0 и новее · исходники iOS 336 КБ</div>
         </div>
       </div>
       <div class="hero-phone">
@@ -834,6 +836,55 @@
       </div>
     </section>
 
+    <section id="ios" aria-labelledby="ios-title">
+      <div class="download">
+        <div class="download-inner">
+          <div>
+            <h2 id="ios-title">LiftBook для iPhone</h2>
+            <p>
+              Версия 2.3 на SwiftUI: тот же дневник, каталог из 347 упражнений,
+              настраиваемые циклы, автопрогрессия и ежедневные напоминания.
+              Файл ниже — полный исходный проект Xcode, а не готовый установщик.
+            </p>
+            <div class="meta">
+              <span>iOS 17+</span>
+              <span>Swift 5 · SwiftUI</span>
+              <span>без зависимостей</span>
+              <span>336 КБ</span>
+            </div>
+            <div class="hash">SHA-256: 28f62555149d2075030daa746c44a28415571d6e52b92f678a409153ab899fd5</div>
+          </div>
+          <a class="btn btn-primary" href="LiftBook_iOS_2-3_source.zip" download>Скачать исходники iOS</a>
+        </div>
+      </div>
+      <div class="split">
+        <div class="panel">
+          <h3>Почему не готовый .ipa</h3>
+          <p>
+            iOS не ставит приложения из файла с сайта, как Android ставит APK. Чтобы приложение
+            появилось на iPhone, его нужно собрать в Xcode на Mac и подписать своим Apple ID.
+            Подписанный установщик можно сделать только на macOS — с сервера это невозможно.
+          </p>
+          <p>
+            Отпечаток архива лежит в файле <a href="ios_source.sha256">ios_source.sha256</a>.
+          </p>
+        </div>
+        <div class="panel">
+          <h3>Как собрать и поставить</h3>
+          <ol>
+            <li>Скачай <b>LiftBook_iOS_2-3_source.zip</b> и распакуй на Mac.</li>
+            <li>Открой <span class="code">LiftBook.xcodeproj</span> в Xcode 15 или новее.</li>
+            <li>В target LiftBook → <b>Signing &amp; Capabilities</b> выбери свой Apple ID в поле Team.</li>
+            <li>Подключи iPhone по кабелю, выбери его как устройство и нажми <span class="code">⌘R</span>.</li>
+          </ol>
+          <p>
+            С бесплатным Apple ID приложение работает 7 дней, затем его нужно пересобрать.
+            Подробности и список возможностей — в <span class="code">README.md</span> внутри архива.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <section id="checksum" aria-labelledby="checksum-title">
       <div class="section-head">
         <div>
@@ -948,6 +999,7 @@
     </div>
     <div>
       <a href="LiftBook_2-3.apk" download>Скачать APK</a> ·
+      <a href="LiftBook_iOS_2-3_source.zip" download>Исходники iOS</a> ·
       <a href="apk.sha256">Контрольная сумма</a> ·
       <a href="privacy.html">Политика конфиденциальности</a> ·
       <span id="year">2026</span>
